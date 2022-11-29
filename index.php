@@ -8,80 +8,69 @@
 
     <link rel="stylesheet" href="style.css" />
 
-    <title>Database</title>
+    <title>Event Finder</title>
 
 </head>
-
-<body>
 
     <div class="navbar">
 
         <ul>
 
-            <li><a href="#">Home</a></li>
-
-            <li><a href="#">Tickets</a></li>
-
-            <li><a href="#">Events</a></li>
-
-            <li><a href="#">Organizers</a></li>
-
-            <li><a href="#">Users</a></li>
+            <li><a href="#">Admin Portal</a></li>
 
         </ul>
 
     </div>
 
-    <div class="contact-us">
+    <div class="events">
   <form>
-    <input name="fname" placeholder="First Name" required="" type="text" />
-    <input name="lname" placeholder="Last Name" required="" type="text" />
-    <input type="submit" class="button" value="Add Person">
+    <input name="eventName" placeholder="Event Name" required="" type="text" />
+    <input name="eventType" placeholder="Event Type (Sports, Concert, etc.)" required="" type="text" />
+    <label for="eventDate">Event date</label> <span id="date-format"></span>
+    <input name = "eventDate" type="date" id="date" placeholder= "Event Date" aria-describedby="date-format"/>
+    <label for="time">Event time</label>
+    <input name="eventTime" id="time" placeholder="Event Time" required="" type="time" />
+    <input type="submit" class="button" value="Add Event">
   </form>
     </div>
     
-    <div class="contact-us">
-<h1> Current List of People</h1>
+    <div class="events">
+<h1>Events</h1>
 
 <?php
 
 $servername = "localhost";
 $username = "user";
 $password = "pass";
-$dbname = "Event Finder DB";
+$dbname = "EventFinder";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("connection failed: " . $conn->connect_error);
 }
 
-// Check to see if fname and lname exist before we insert
-if (isset ($_GET['fname'] ) and isset ($_GET['lname'] ))
+if (isset ($_GET['eventName'] ) || isset ($_GET['eventType'] ) || isset ($_GET['eventDate'] ) || isset ($_GET['eventTime'] ))
 {
-$insert_query = "INSERT INTO people (first_name, last_name) VALUES( \"" . $_GET['fname'] . "\",\"" . $_GET['lname'] . "\");";
-
+$insert_query = "INSERT INTO Events (EVENT_NAME, EVENT_TYPE, EVENT_DATE, EVENT_TIME) VALUES( \"" . $_GET['eventName'] . "\",\"" . $_GET['eventType'] . "\",\"" . $_GET['eventDate'] ."\",\"" . $_GET['eventTime'] ."\");";
 $result = $conn->query($insert_query);
 
 }
 
-//
-// Check to see if fname and lname exist before we insert
 if (isset ($_GET['delete_id'] )){
-$delete_query = "DELETE FROM people WHERE person_id=" . $_GET['delete_id'] . ";";
+$delete_query = "DELETE FROM EVENTS WHERE EVENT_ID=" . $_GET['delete_id'] . ";";
 $result = $conn->query($delete_query);
-echo "Debug message: deleted user " .$_GET['delete_id'] . "</br>";
+echo "Deleted user " .$_GET['delete_id'] . "</br>";
 }
 
-$select_query = "SELECT * FROM people;";
+$select_query = "SELECT * FROM EVENTS;";
 $result = $conn->query($select_query);
 
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()){
-    echo $row['first_name'] . " " . $row['last_name'] . " <a href=?delete_id=" . $row['person_id'] . "> X</a> </br>";
+    echo $row['EVENT_NAME'] . " " . $row['EVENT_TYPE'] . " " . $row['EVENT_DATE'] . " " . $row['EVENT_TIME'] ." <a href=?delete_id=" . $row['EVENT_ID'] . "> X</a> </br>";
   }
 }
 
 ?>
         </div>
-</body>
 </html>
