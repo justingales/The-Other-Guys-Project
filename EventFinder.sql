@@ -46,4 +46,4 @@ INSERT INTO TICKETS VALUES (1,100,'https://concerts.livenation.com/dominic-fike-
 INSERT INTO EVENT_LOCATION VALUES ('2000 Brush St.','Detroit','MI',48226,1);
 
 /*EVENTS ROWS*/
-INSERT INTO EVENTS VALUES (1,'Dominic Fike: Out of Order Tour','2022-12-09','Concert','19:00:00',1,1);
+INSERT INTO EVENTS VALUES (1,'Dominic Fike: Out of Order Tour','Concert','2022-12-09','19:00:00',1,1);
